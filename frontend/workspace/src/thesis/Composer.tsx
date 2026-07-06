@@ -948,7 +948,7 @@ export function Composer(): JSX.Element {
                 "font-family": FONT_MONO,
                 "font-size": "10px",
                 color: "var(--color-text-faint)",
-                "letter-spacing": "0.05em",
+                "letter-spacing": "0.08em",
                 "text-transform": "lowercase",
               }}
             >
@@ -966,7 +966,7 @@ export function Composer(): JSX.Element {
                     padding: "3px 8px",
                     "font-family": FONT_SANS,
                     "font-size": "12px",
-                    color: "var(--color-text-secondary, var(--color-text))",
+                    color: "var(--color-text-muted)",
                     background: "var(--color-bg-elevated)",
                     "max-width": "340px",
                   }}
