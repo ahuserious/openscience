@@ -541,7 +541,6 @@ function TabBtn(props: {
         "font-family": FONT_MONO,
         "font-size": "11px",
         "font-weight": props.active ? 700 : 400,
-        "letter-spacing": "0.02em",
         color: props.active ? "var(--color-text)" : "var(--color-text-muted)",
         transition:
           "background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard)",
