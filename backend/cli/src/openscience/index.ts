@@ -1579,6 +1579,18 @@ export namespace OpenScience {
     }
   }
 
+  /** Version of the bundled @synsci/atlas companion CLI, or null if unresolved. */
+  export async function atlasCliVersion(): Promise<string | null> {
+    const dir = resolveAtlasPackageDir()
+    if (!dir) return null
+    try {
+      const pkg = (await Bun.file(path.join(dir, "package.json")).json()) as { version?: string }
+      return pkg.version ?? null
+    } catch {
+      return null
+    }
+  }
+
   // === Billing mode (BYOK ↔ managed) ===
 
   export interface BillingMode {
