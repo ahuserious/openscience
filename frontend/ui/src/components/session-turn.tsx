@@ -660,7 +660,7 @@ export function SessionTurn(
                               message={assistantMessage}
                               responsePartId={responsePartId()}
                               hideResponsePart={hideResponsePart()}
-                              hideReasoning={!working()}
+                              hideReasoning={false}
                               hideTools={props.hideTools}
                             />
                           )}
