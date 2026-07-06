@@ -465,10 +465,10 @@ export default function Page(): JSX.Element {
                       gap: "12px",
                       padding: "8px 12px",
                       border: "1px solid var(--color-border)",
-                      "border-radius": "6px",
+                      "border-radius": "4px",
                       "font-size": "12px",
                       "font-family": FONT_SANS,
-                      color: "var(--color-text-secondary, var(--color-text))",
+                      color: "var(--color-text-muted)",
                       background: "var(--color-bg)",
                     }}
                   >
@@ -982,7 +982,7 @@ function ChatWelcome(): JSX.Element {
         style={{
           margin: 0,
           "font-family": FONT_SERIF,
-          "font-size": "27px",
+          "font-size": "22px",
           "line-height": 1.15,
           "font-weight": 400,
           "letter-spacing": "-0.02em",
