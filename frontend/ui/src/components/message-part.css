@@ -76,8 +76,8 @@
     white-space: pre-wrap;
     word-break: break-word;
     overflow: hidden;
-    background: var(--surface-weak);
-    border: 1px solid var(--border-weak-base);
+    background: var(--surface-raised-base);
+    border: 1px solid var(--border-base);
     padding: 10px 14px;
     border-radius: 14px;
 

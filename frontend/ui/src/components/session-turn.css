@@ -222,7 +222,7 @@
     [data-slot="session-turn-response"] {
       position: relative;
       width: 100%;
-      border: 1px solid var(--border-weak-base);
+      border: 1px solid var(--border-base);
       border-radius: 14px;
       padding: 16px 18px;
       background: var(--surface-raised-base);
