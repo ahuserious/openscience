@@ -1738,7 +1738,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
         classList={{
           "group/prompt-input": true,
           "bg-surface-raised-stronger-non-alpha shadow-xs-border relative": true,
-          "rounded-[4px] overflow-clip focus-within:shadow-xs-border": true,
+          "rounded-[14px] overflow-clip focus-within:shadow-xs-border": true,
           "border-icon-info-active border-dashed": store.dragging,
           [props.class ?? ""]: !!props.class,
         }}
@@ -1774,7 +1774,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                   >
                     <div
                       classList={{
-                        "group shrink-0 flex flex-col rounded-xs pl-2 pr-1 py-1 max-w-[200px] h-12 transition-all transition-transform shadow-xs-border hover:shadow-xs-border-hover": true,
+                        "group shrink-0 flex flex-col rounded-[6px] pl-2 pr-1 py-1 max-w-[200px] h-12 transition-all transition-transform shadow-xs-border hover:shadow-xs-border-hover": true,
                         "cursor-pointer hover:bg-surface-interactive-weak": !!item.commentID && !active(),
                         "cursor-pointer bg-surface-interactive-hover hover:bg-surface-interactive-hover shadow-xs-border-hover":
                           active(),
