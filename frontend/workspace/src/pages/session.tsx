@@ -18,6 +18,7 @@ import { useSDK } from "@/context/sdk"
 import { useLayout } from "@/context/layout"
 import { useTheme } from "@synsci/ui/theme"
 import { PromptInput } from "@/components/prompt-input"
+import { NewSessionView } from "@/components/session/session-new-view"
 import { Wordmark } from "@/thesis/Wordmark"
 import { AppHeader, HeaderIconButton, HeaderDivider } from "@/thesis/AppHeader"
 import { RightPane } from "@/thesis/RightPane"
@@ -186,6 +187,9 @@ export default function Page(): JSX.Element {
   // makes the revert permanent server-side).
   const activeSession = createMemo(() => (params.id ? sync.session.get(params.id) : undefined))
   const revertInfo = createMemo(() => activeSession()?.revert)
+  // New-session worktree selection, shared between the empty-state view and the
+  // composer (matches the v1.1.116 new-session flow).
+  const [newSessionWorktree, setNewSessionWorktree] = createSignal("main")
   const turnMessages = createMemo(() => {
     const revertID = revertInfo()?.messageID
     return messages().filter((m) => m.role === "user" && (!revertID || m.id < revertID))
@@ -467,7 +471,7 @@ export default function Page(): JSX.Element {
                   </div>
                 </Match>
                 <Match when={true}>
-                  <ChatWelcome />
+                  <NewSessionView worktree={newSessionWorktree()} onWorktreeChange={setNewSessionWorktree} />
                 </Match>
               </Switch>
 
@@ -512,7 +516,10 @@ export default function Page(): JSX.Element {
                       </button>
                     </div>
                   </Show>
-                  <PromptInput />
+                  <PromptInput
+                    newSessionWorktree={newSessionWorktree()}
+                    onNewSessionWorktreeReset={() => setNewSessionWorktree("main")}
+                  />
                 </div>
               </div>
             </div>
