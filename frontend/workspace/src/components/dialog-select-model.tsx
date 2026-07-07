@@ -246,7 +246,7 @@ export function ModelSelectorPopover<T extends ValidComponent = "div">(props: {
       <Kobalte.Portal>
         <Kobalte.Content
           ref={(el) => setStore("content", el)}
-          class="w-[360px] h-[min(70vh,440px)] flex flex-col p-1.5 rounded-lg border border-border-weak-base bg-surface-raised-stronger-non-alpha shadow-lg z-50 outline-none overflow-hidden"
+          class="w-[340px] h-[min(70vh,420px)] flex flex-col p-2 rounded-md border border-border-base bg-surface-raised-stronger-non-alpha shadow-md z-50 outline-none overflow-hidden"
           onEscapeKeyDown={(event) => {
             setStore("dismiss", "escape")
             setStore("open", false)
