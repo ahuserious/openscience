@@ -145,6 +145,16 @@
   outline: none !important;
 }
 
+/* The v1.1.116 chat + composer buttons carry their own subtle focus treatment
+   (button.css shadow-xs-border-focus). Suppress the app-wide hard teal
+   :focus-visible box on interactive elements inside the conversation and the
+   PromptInput so the controls (agent / model / effort / speed) read like the
+   old UI instead of a harsh 2px outline. Focus stays visible via button.css. */
+[data-component="prompt-input"] :is(button, [role="button"], a, [tabindex]):focus-visible,
+.session-scroller :is(button, [role="button"], a, [tabindex]):focus-visible {
+  outline: none !important;
+}
+
 /* The old light-mode "cream neutralisation" remap block is gone: the default
    openscience theme now ships the product's neutral greys directly, so the ui
    semantic layer needs no app-side patching (and non-default themes render
