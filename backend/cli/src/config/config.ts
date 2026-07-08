@@ -635,6 +635,34 @@ export namespace Config {
     })
   export type Permission = z.infer<typeof Permission>
 
+  export const Sandbox = z
+    .object({
+      enabled: z
+        .boolean()
+        .optional()
+        .describe(
+          "Run the agent's shell commands inside an OS sandbox (macOS Seatbelt / Linux bubblewrap) that confines writes to the workspace. Off by default.",
+        ),
+      network: z
+        .enum(["allow", "deny"])
+        .optional()
+        .describe("Whether sandboxed commands may reach the network. Default: allow."),
+      allowWrite: z
+        .array(z.string())
+        .optional()
+        .describe("Extra absolute paths — beyond the workspace and temp dirs — the sandbox may write to."),
+      onUnavailable: z
+        .enum(["warn", "error", "allow"])
+        .optional()
+        .describe(
+          "Behaviour when no sandbox backend exists on this platform: 'warn' (default) runs unsandboxed with a notice, 'error' refuses to run the command, 'allow' runs unsandboxed silently.",
+        ),
+    })
+    .meta({
+      ref: "SandboxConfig",
+    })
+  export type Sandbox = z.infer<typeof Sandbox>
+
   export const Command = z.object({
     template: z.string(),
     description: z.string().optional(),
@@ -1117,6 +1145,7 @@ export namespace Config {
       instructions: z.array(z.string()).optional().describe("Additional instruction files or patterns to include"),
       layout: Layout.optional().describe("@deprecated Always uses stretch layout."),
       permission: Permission.optional(),
+      sandbox: Sandbox.optional().describe("OS-level execution sandbox for the agent's shell commands."),
       tools: z.record(z.string(), z.boolean()).optional(),
       enterprise: z
         .object({
@@ -1471,6 +1500,34 @@ export namespace Config {
   /** Remove a custom provider block. */
   export async function removeProvider(id: string, scope: Scope = "global") {
     return patchConfigPath(scope, ["provider", id], undefined)
+  }
+
+  /**
+   * Execution-sandbox policy resolved from GLOBAL + MANAGED (admin) config only.
+   * Project config is deliberately excluded: the sandbox is a machine-wide safety
+   * boundary, so an untrusted repo's `openscience.json` must not be able to weaken
+   * or disable it. Managed (enterprise) config wins over the user's global config.
+   */
+  export async function trustedSandbox(): Promise<Sandbox | undefined> {
+    const base = (await global()).sandbox
+    let managed: Sandbox | undefined
+    if (existsSync(managedConfigDir)) {
+      let acc: Info = {}
+      for (const file of CONFIG_FILES) acc = mergeDeep(acc, await loadFile(path.join(managedConfigDir, file)))
+      managed = acc.sandbox
+    }
+    if (!base && !managed) return undefined
+    return { ...(base ?? {}), ...(managed ?? {}) }
+  }
+
+  /** Merge a patch into the GLOBAL `sandbox` config block, JSONC-preserving. The
+   *  execution sandbox is a machine-wide safety setting and is only ever read
+   *  from global + managed config (see {@link trustedSandbox}), so it is always
+   *  written globally — a project-scoped value would be silently ignored. */
+  export async function setSandbox(patch: Partial<Sandbox>) {
+    const current = (await getGlobal()).sandbox
+    const next: Sandbox = { ...(current ?? {}), ...patch }
+    return patchConfigPath("global", ["sandbox"], next)
   }
 
   /** Remove a key path from the global config (deep-merge can't unset). */
