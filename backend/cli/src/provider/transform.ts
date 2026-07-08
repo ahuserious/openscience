@@ -601,7 +601,7 @@ export namespace ProviderTransform {
         // are NOT opus/sonnet/haiku, so they must be matched explicitly or they
         // fall through to the classic path below and 400 (manual thinking rejected).
         const usesEffort =
-          /^claude-opus-4-[78]\b/.test(id) || /^claude-(opus|sonnet|fable|mythos)-[5-9]\b/.test(id)
+          /^claude-opus-4[.-][78]\b/.test(id) || /^claude-(opus|sonnet|fable|mythos)-[5-9]\b/.test(id)
 
         if (usesEffort) {
           return {
